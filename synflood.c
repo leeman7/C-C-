@@ -117,8 +117,8 @@ int main (void)
     }
      
     //Uncommend the loop if you want to flood :)
-    //while (1)
-    //{
+    while (1)
+    {
         //Send the packet
         if (sendto (s,      /* our socket */
                     datagram,   /* the buffer containing headers and data */
@@ -134,7 +134,7 @@ int main (void)
         {
             printf ("Packet Send \n");
         }
-    //}
+    }
      
     return 0;
 }
