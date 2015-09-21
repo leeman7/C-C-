@@ -74,8 +74,8 @@ double pop(void)
 {
 	int sp = 0;
 
-	if (sp > 0)
-		return value[--sp];
+	if (sp > 0) {
+		return value[--sp];}
 	else {
 		printf("ERROR: STACK IS EMP\n");
 		return 0.0;
