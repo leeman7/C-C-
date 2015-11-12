@@ -19,6 +19,11 @@ void printdir(char *dir, int depth)
 	DIR *dp; // directory pointer
 	struct dirent *entry; 
 	struct stat statbuf; // stat buffer
+	char cwd[100];
+
+	//print working dir
+	memset(cwd, 0, sizeof(cwd));
+	printf("Current Working Dir: %s\n", getcwd(cwd, sizeof(cwd)));
 
 	//if pointer to directory does not exist
 	//return an error message
@@ -32,10 +37,10 @@ void printdir(char *dir, int depth)
 	while((entry = readdir(dp)) != NULL) {
 		lstat(entry->d_name, &statbuf);
 		if (S_ISDIR(statbuf.st_mode)) {
-			/* FOUND A DIRECTORY BUT IGNORE . and .. */
-			if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0) continue;
+			/* FOUND A DIRECTORY BUT IGNORE . and ..*/
+			//if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0) continue;
 			printf("%*s%s/\n", depth, "", entry->d_name);
-			/* RECURSE  AT A NEW INDENT LEVEL */
+			/* RECURSE  AT A NEW INDENT LEVEL*/
 			printdir(entry->d_name, depth+6);
 		} else	printf("%*s%s\n", depth, "", entry->d_name);
 	}

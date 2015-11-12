@@ -7,11 +7,18 @@
 //LIBRARIES
 #include <unistd.h>
 
-void forkbomb()
-{
-	// while true and always true
+void forkbomb(){
+	pid_t pid;
 	// keep forking
 	while(1) {
-		fork(); // creates a whole new copy of the previous process
+		pid = fork(); // creates a whole new copy of the previous process
+		switch(pid){
+			case 0:
+				//printf("CRASHING\n");
+				break;
+			default:
+				//printf("RUNNING\n");
+				break;
+		}
 	}
 }

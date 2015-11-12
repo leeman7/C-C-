@@ -14,6 +14,7 @@ clean:
 	rm sort
 	rm pipe
 	rm fork
+	rm shhh
 
 master:
 	gcc -Wall -g -o synflood synflood.c
@@ -26,6 +27,7 @@ master:
 	gcc -Wall -g -o sort sort.c
 	gcc -Wall -g -o pipe pipe.c
 	gcc -Wall -g -o fork fork.c
+	gcc -Wall -g -o shhh shhh.c
 
 flood:
 	gcc -Wall -g -o synflood synflood.c
@@ -45,3 +47,7 @@ law:
 sum:
 	gcc -Wall -g -o gauss_sum gauss_sum.c
 	./gauss_sum
+shhh:
+	gcc -Wall -g -o shhh shhh.c
+	./shhh
+
