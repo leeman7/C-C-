@@ -24,74 +24,74 @@
 
 /* DEFINES */
 #define MAX_THREADS 4
-
+ 
 /* GLOBAL VARIABLES */
-pthread_t threads[MAX_THREADS];
-//pthread_mutex_t mutex;
-//pthread_t access;
-
 int pearls = 1000;
-double A=0;
-double B=0;
-double C=0;
-double D=0;
+
+struct pirate{
+  pthread_t pirate_id;
+  char password[20];
+  int myPearls;
+};
 
 /* FUNCTIONS */
-void* takePearls(void *arg){
+void * takePearls(void *arg){
 	double ten= 0.10, fifteen= 0.15;
-
+	struct pirate *p = arg;
 	//take pearls
-	while(pearls != 0){
-		if(threads[0]){
+
+		if(strcmp(p->password, "Open Sesame")==0){
 			printf("Pirate A took: %.2lf pearls...\n", ceil(pearls*ten));
-			A += ceil(pearls*ten);
+			p->myPearls += ceil(pearls*ten);
 			pearls = pearls - ceil(pearls*ten);
 		}
-		if(threads[1]){
-			printf("Pirate B took: %.2lf pearls...\n", ceil(pearls*ten));
-			B += ceil(pearls*ten);
-			pearls = pearls - ceil(pearls*ten);
-		}
-		if(threads[2]){
+		if(strcmp(p->password, "Open Watermelon")==0){
 			printf("Pirate C took: %.2lf pearls...\n", ceil(pearls*fifteen));
-			C += ceil(pearls*fifteen);
+			p->myPearls += ceil(pearls*fifteen);
 			pearls = pearls - ceil(pearls*fifteen);
 		}
-		if(threads[3]){
-			printf("Pirate D took: %.2lf pearls...\n", ceil(pearls*fifteen));
-			D += ceil(pearls*fifteen);
-			pearls = pearls - ceil(pearls*fifteen);
-		}
-	}
+ 
+  return p;
 }
 
-void printTotal(double A, double B, double C, double D){
-
-	printf("A: %.2lf Pearls\n", A);
-	printf("B: %.2lf Pearls\n", B);
-	printf("C: %.2lf Pearls\n", C);
-	printf("D: %.2lf Pearls\n", D);
+void showPirateBooty(double A, double B, double C, double D){
+	printf("Pirate A Grabbed: %.2lf Pearls\n", A);
+	printf("Pirate B Grabbed: %.2lf Pearls\n", B);
+	printf("Pirate C Grabbed: %.2lf Pearls\n", C);
+	printf("Pirate D Grabbed: %.2lf Pearls\n", D);
 }
 
 int main(void){
-
-	int err;
-
-	pthread_setconcurrency(2);
-
-	int i;
-	pthread_create(&(threads[0]), NULL, &takePearls, NULL);
-	pthread_create(&(threads[1]), NULL, &takePearls, NULL);
-	pthread_create(&(threads[2]), NULL, &takePearls, NULL);
-	pthread_create(&(threads[3]), NULL, &takePearls, NULL);
-	/*for(i=0; i < MAX_THREADS; i++) {
-		err = pthread_create(&(threads[i]), NULL, &takePearls, NULL);
+  pthread_t threads[MAX_THREADS];
+	int err, i;
+  struct pirate *pirates; /* pointer to struct info */
+  
+  /* */
+  pirates = calloc(MAX_THREADS, sizeof(struct pirate));
+	
+	for(i=0; i < MAX_THREADS; i++){
+    pirates[i].myPearls=0;
+    if(i <= 1){
+      strcpy(pirates[i].password, "Open Sesame");
+		}
+    else{
+      strcpy(pirates[i].password, "Open Watermelon");
+    }
+    
+    err = pthread_create(&(threads[i]), NULL, &takePearls, &pirates[i]);
 		if (err != 0)
 			printf("ERROR: Failed to Create Thread\n");
-	}*/
+	}
+ 
+  for(i=0; i < MAX_THREADS; i++){
+		pthread_join(threads[i], NULL);
+	}
 
-	sleep(1);
-	printTotal(A, B, C, D);
+	sleep(100); /* add in a pause */
+ 
+	showPirateBooty(pirates[0].myPearls, pirates[1].myPearls, pirates[2].myPearls, pirates[3].myPearls);
+ 
+  free(pirates);
 	pthread_exit(0);
 	return 0;
 	

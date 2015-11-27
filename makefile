@@ -1,5 +1,5 @@
 list:
-	echo "------------LISTING FILES------------"
+	@echo "------------LISTING FILES------------"
 	ls -hal
 clean:
 	rm synflood
